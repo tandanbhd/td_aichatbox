@@ -1,0 +1,10 @@
+Flask
+flask-cors
+google-api-python-client
+python-docx
+google-auth
+google-generativeai
+google-auth-httplib2
+google-auth-oauthlib
+gunicorn
+requests
