@@ -10,139 +10,114 @@
         /* Thiết lập font chữ và màu nền chung */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa; /* Màu nền xám nhạt */
+            background-color: #f0f2f5; /* Màu nền sáng hơn */
             margin: 0;
-            display: flex; /* Sử dụng flexbox để căn chỉnh layout */
-            flex-direction: column; /* Các thành phần xếp chồng lên nhau */
-            height: 100vh; /* Chiều cao bằng 100% viewport */
-        }
-
-        /* Khung chứa các tin nhắn chat */
-        .chat-container {
-            max-width: 800px; /* Chiều rộng tối đa */
-            width: 95%; /* Chiều rộng linh hoạt */
-            margin: auto; /* Căn giữa theo chiều ngang */
-            flex-grow: 1; /* Cho phép khung chat co giãn để lấp đầy không gian */
-            overflow-y: scroll; /* Thêm thanh cuộn dọc khi nội dung vượt quá */
-            padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Tin nhắn bắt đầu từ trên xuống */
-            border: 1px solid #dee2e6; /* Viền nhẹ */
-            background-color: #ffffff; /* Nền trắng cho khung chat */
-            border-radius: 8px; /* Bo góc nhẹ */
-            margin-bottom: 0; /* Không có khoảng cách dưới cùng với input */
+            height: 100vh;
         }
-
-        /* Định dạng chung cho các bong bóng tin nhắn */
-        .message {
-            padding: 10px 15px; /* Khoảng cách bên trong */
-            margin-bottom: 12px; /* Khoảng cách giữa các tin nhắn */
-            border-radius: 18px; /* Bo góc nhiều hơn cho bong bóng */
-            clear: both; /* Đảm bảo float không ảnh hưởng đến tin nhắn sau */
-            max-width: 75%; /* Chiều rộng tối đa của bong bóng */
-            word-wrap: break-word; /* Tự động xuống dòng từ dài */
-            position: relative; /* Để định vị timestamp */
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ */
-            line-height: 1.4; /* Giãn dòng */
+    
+        /* Khung chứa các tin nhắn chat */
+        .chat-container {
+            max-width: 600px; /* Giới hạn chiều rộng */
+            width: 100%; /* Chiều rộng đầy đủ trên điện thoại */
+            margin: auto;
+            flex-grow: 1;
+            overflow-y: auto; /* Thêm thanh cuộn dọc */
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border: 1px solid #ddd; /* Viền nhẹ */
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bóng đổ */
         }
-
+    
         /* Tin nhắn của người dùng */
         .user-message {
-            background-color: #dcf8c6; /* Màu xanh lá nhạt */
-            align-self: flex-end; /* Căn sang phải */
-            float: right; /* Đẩy sang phải (cần clear: both ở trên) */
-            margin-left: 25%; /* Đảm bảo không chiếm toàn bộ chiều rộng */
+            background-color: #007bff; /* Màu xanh dương */
+            color: white;
+            align-self: flex-end;
+            border-radius: 15px 15px 0 15px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
         }
-
+    
         /* Tin nhắn của AI */
         .ai-message {
-            background-color: #f1f0f0; /* Màu xám rất nhạt */
-            align-self: flex-start; /* Căn sang trái */
-            float: left; /* Đẩy sang trái */
-            white-space: pre-wrap; /* Quan trọng: Giữ lại và hiển thị các dấu xuống dòng (\n) */
-            margin-right: 25%; /* Đảm bảo không chiếm toàn bộ chiều rộng */
+            background-color: #f1f0f0;
+            color: #333;
+            align-self: flex-start;
+            border-radius: 15px 15px 15px 0;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
         }
-
-        /* Dấu thời gian dưới mỗi tin nhắn */
-        .timestamp {
-            display: block; /* Hiển thị trên dòng riêng */
-            font-size: 0.7em; /* Cỡ chữ nhỏ */
-            color: #6c757d; /* Màu xám */
-            text-align: right; /* Căn phải */
-            margin-top: 4px; /* Khoảng cách nhỏ phía trên */
-        }
-
-        /* Khung nhập liệu và nút gửi */
+    
+        /* Khung nhập liệu */
         .input-container {
-            max-width: 800px; /* Chiều rộng tối đa bằng khung chat */
-            width: 95%; /* Chiều rộng linh hoạt */
-            margin: 0 auto; /* Căn giữa, không có margin top/bottom */
-            padding: 12px 15px; /* Padding */
+            max-width: 600px;
+            width: 100%;
+            margin: auto;
+            padding: 10px;
             display: flex;
-            align-items: center; /* Căn giữa các thành phần theo chiều dọc */
-            border-top: 1px solid #dee2e6; /* Viền trên ngăn cách với chat */
-            background-color: #f8f9fa; /* Nền giống body */
-            border-radius: 0 0 8px 8px; /* Bo góc dưới cùng */
+            align-items: center;
+            border-top: 1px solid #ddd;
+            background-color: #ffffff;
+            border-radius: 0 0 10px 10px;
         }
-
-        /* Ô nhập liệu */
+    
         #message-input {
-            flex-grow: 1; /* Cho phép ô nhập liệu co giãn */
-            margin-right: 10px; /* Khoảng cách với nút gửi */
-            border-radius: 20px; /* Bo tròn */
-            padding: 10px 15px; /* Padding bên trong */
-            border: 1px solid #ced4da; /* Viền */
-            font-size: 1rem; /* Cỡ chữ */
+            flex-grow: 1;
+            border-radius: 20px;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            font-size: 1rem;
         }
-        #message-input:focus {
-            border-color: #86b7fe; /* Đổi màu viền khi focus */
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); /* Thêm hiệu ứng focus */
-            outline: none; /* Bỏ outline mặc định */
-        }
-         #message-input:disabled {
-             background-color: #e9ecef; /* Màu nền khi bị vô hiệu hóa */
-         }
-
-        /* Nút gửi */
+    
         #send-button {
-            border-radius: 50%; /* Nút tròn */
-            width: 45px; /* Kích thước cố định */
-            height: 45px; /* Kích thước cố định */
-            padding: 0; /* Bỏ padding mặc định */
+            margin-left: 10px;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: none; /* Không viền */
-            background-color: #0d6efd; /* Màu xanh dương Bootstrap */
+            border: none;
+            background-color: #007bff;
             color: white;
             cursor: pointer;
-            flex-shrink: 0; /* Ngăn nút bị co lại */
-            transition: background-color 0.2s ease; /* Hiệu ứng chuyển màu nền */
+            transition: background-color 0.2s ease;
         }
+    
         #send-button:hover:not(:disabled) {
-            background-color: #0b5ed7; /* Màu đậm hơn khi hover (nếu không bị disable) */
+            background-color: #0056b3;
         }
-        #send-button:disabled {
-            background-color: #6c757d; /* Màu xám khi bị vô hiệu hóa */
-            cursor: not-allowed; /* Đổi con trỏ chuột */
-        }
-        #send-button svg {
-            width: 20px; /* Kích thước icon gửi */
-            height: 20px;
-        }
-
-        /* Chỉ báo đang tải/xử lý */
-        .loading-indicator {
-            text-align: center;
-            padding: 8px 0; /* Padding trên dưới */
-            font-style: italic;
-            color: #6c757d; /* Màu xám */
-            background-color: #f8f9fa; /* Nền giống body */
-            max-width: 800px; /* Chiều rộng tối đa */
-            width: 95%;
-            margin: 0 auto; /* Căn giữa */
-            font-size: 0.9em;
+    
+        /* Media queries cho thiết bị di động */
+        @media (max-width: 768px) {
+            .chat-container {
+                padding: 10px;
+                border-radius: 0;
+                box-shadow: none;
+            }
+    
+            .input-container {
+                padding: 8px;
+            }
+    
+            #message-input {
+                font-size: 0.9rem;
+            }
+    
+            #send-button {
+                width: 40px;
+                height: 40px;
+            }
         }
     </style>
 </head>
