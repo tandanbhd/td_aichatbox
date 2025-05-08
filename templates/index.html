@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tandan AI Chat</title>
+    <title>TD.BHD AI Chatbox</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Thiết lập font chữ và màu nền chung */
@@ -49,7 +49,7 @@
 
         /* Tin nhắn của người dùng */
         .user-message {
-            background-color: #bbc3eb; /* Màu xanh lá nhạt */
+            background-color: #d0f6b8; /* Màu xanh lá nhạt */
             align-self: flex-end; /* Căn sang phải */
             float: right; /* Đẩy sang phải (cần clear: both ở trên) */
             margin-left: 25%; /* Đảm bảo không chiếm toàn bộ chiều rộng */
@@ -57,7 +57,7 @@
 
         /* Tin nhắn của AI */
         .ai-message {
-            background-color: #f1f0f0; /* Màu xám rất nhạt */
+            background-color: #e8eff1; /* Màu xám rất nhạt */
             align-self: flex-start; /* Căn sang trái */
             float: left; /* Đẩy sang trái */
             white-space: pre-wrap; /* Quan trọng: Giữ lại và hiển thị các dấu xuống dòng (\n) */
@@ -376,7 +376,7 @@
 
             } else {
                 // --- Giai đoạn Hỏi đáp thông thường ---
-                loadingIndicator.textContent = 'Tân Dân AI đang trả lời...';
+                loadingIndicator.textContent = 'TD.BHD AI đang trả lời...';
                 try {
                     // Gọi API backend để hỏi AI
                     const response = await fetch('/ask', {
@@ -441,7 +441,7 @@
         function initializeChat() {
             console.log("Khởi tạo giao diện chat...");
             // Hiển thị tin nhắn chào mừng và yêu cầu mã cán bộ (không cần hiệu ứng gõ)
-            addMessageToChat("Chào bạn, tôi là Tân Dân AI. Để bắt đầu, vui lòng nhập Mã cán bộ của bạn.", 'ai', false, () => {
+            addMessageToChat("Xin chào, tôi là TD.BHD AI. Để bắt đầu, vui lòng nhập Mã cán bộ của bạn.", 'ai', false, () => {
                 // Callback được gọi sau khi tin nhắn đầu tiên hiển thị
                 messageInput.placeholder = 'Nhập Mã cán bộ...'; // Đặt placeholder
                 messageInput.disabled = false; // Kích hoạt ô nhập
