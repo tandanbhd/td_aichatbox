@@ -13,6 +13,7 @@ import csv
 import os
 import json # Thêm thư viện json
 import openai # Thêm thư viện OpenAI
+import traceback
 
 # === Khởi tạo ứng dụng Flask ===
 app = Flask(__name__)
@@ -33,7 +34,7 @@ else:
     except Exception as e:
         print(f"LỖI CẤU HÌNH OPENAI API: {e}. Vui lòng kiểm tra API Key.")
 
-OPENAI_MODEL_NAME = "gpt-4-0125-preview" # Hoặc model bạn muốn dùng
+OPENAI_MODEL_NAME = "gpt-4o" # Hoặc model bạn muốn dùng
 generation_config = {
     "max_output_tokens": 1500,
     "temperature": 0.7,
