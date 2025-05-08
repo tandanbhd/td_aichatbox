@@ -6,7 +6,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from docx import Document
 from flask_cors import CORS
-import google.generativeai as genai
+#GemniAP: import google.generativeai as genai
 import io
 from google.oauth2 import service_account
 import csv
@@ -29,7 +29,6 @@ if not OPENAI_API_KEY:
     # Thoát hoặc xử lý lỗi phù hợp ở đây
 else:
     try:
-        genai.configure(api_key=OPENAI_API_KEY)
         print("Đã cấu hình OPENAI API thành công.")
     except Exception as e:
         print(f"LỖI CẤU HÌNH OPENAI API: {e}. Vui lòng kiểm tra API Key.")
