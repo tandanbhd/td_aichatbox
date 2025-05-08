@@ -12,6 +12,7 @@ from google.oauth2 import service_account
 import csv
 import os
 import json # Thêm thư viện json
+import openai # Thêm thư viện OpenAI
 
 # === Khởi tạo ứng dụng Flask ===
 app = Flask(__name__)
@@ -19,20 +20,21 @@ CORS(app)
 
 # === Cấu hình API ===
 
-# --- Cấu hình Gemini API ---
+# --- Cấu hình OpenAI API ---
 # Lấy API Key từ biến môi trường
-GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
-if not GOOGLE_API_KEY:
-    print("LỖI: Biến môi trường GOOGLE_API_KEY chưa được thiết lập.")
+OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+openai.api_key = OPENAI_API_KEY
+if not OPENAI_API_KEY:
+    print("LỖI: Biến môi trường OPENAI_API_KEY chưa được thiết lập.")
     # Thoát hoặc xử lý lỗi phù hợp ở đây
 else:
     try:
-        genai.configure(api_key=GOOGLE_API_KEY)
-        print("Đã cấu hình Gemini API thành công.")
+        genai.configure(api_key=OPENAI_API_KEY)
+        print("Đã cấu hình OPENAI API thành công.")
     except Exception as e:
-        print(f"LỖI CẤU HÌNH GEMINI API: {e}. Vui lòng kiểm tra API Key.")
+        print(f"LỖI CẤU HÌNH OPENAI API: {e}. Vui lòng kiểm tra API Key.")
 
-MODEL_NAME = "gemini-1.5-flash" # Hoặc model bạn muốn dùng
+MODEL_NAME = "gpt-4-0125-preview" # Hoặc model bạn muốn dùng
 generation_config = {
     "max_output_tokens": 1500,
     "temperature": 0.7,
@@ -246,32 +248,45 @@ def ask():
         print(f"  - Sử dụng nội dung từ {len(WORD_CONTENTS)} file Word làm ngữ cảnh.")
         all_context = "\n\n---\n\n".join(WORD_CONTENTS.values())
         file_names_str = ", ".join(WORD_FILES.keys())
-        prompt = f"""Dựa vào nội dung các văn bản sau đây ({file_names_str}):
+        prompt = f"""
+Bạn là một trợ lý AI thông minh chuyên trả lời các câu hỏi dựa trên tài liệu nội bộ.
 
-'''{all_context}'''
+Dưới đây là nội dung tổng hợp từ các văn bản ({file_names_str}):
 
-Hãy trả lời câu hỏi sau một cách chi tiết và chính xác nhất có thể: "{question}"
+<<<
+{all_context}
+>>>
+
+Nhiệm vụ: Dựa **chỉ** vào thông tin trong các văn bản trên, hãy trả lời câu hỏi sau một cách ngắn gọn, chính xác và đầy đủ:
+
+Câu hỏi: "{question}"
+
+Nếu không thể tìm thấy câu trả lời trong văn bản, hãy trả lời: "Tôi không tìm thấy thông tin này trong tài liệu."
 """
-    print("  - Đang gửi yêu cầu đến Gemini API...")
-    if not GOOGLE_API_KEY: # Kiểm tra lại API key trước khi gọi
-         return jsonify({'error': 'Lỗi cấu hình phía server: Không tìm thấy Gemini API Key.'}), 500
+    print("  - Đang gửi yêu cầu đến OpenAI API...")
+    if not OPENAI_API_KEY: # Kiểm tra lại API key trước khi gọi
+         return jsonify({'error': 'Lỗi cấu hình phía server: Không tìm thấy OpenAI API Key.'}), 500
     try:
-        model = genai.GenerativeModel(model_name=MODEL_NAME,
-                                    generation_config=generation_config,
-                                    safety_settings=safety_settings)
-        response = model.generate_content(prompt)
-        answer = response.text
-        print("  -> Nhận được câu trả lời từ Gemini.")
+        response = openai.ChatCompletion.create(
+            model=OPENAI_MODEL_NAME,
+            messages=[
+                {"role": "system", "content": "Bạn là một trợ lý AI chuyên trả lời câu hỏi từ tài liệu nội bộ. Chỉ trả lời dựa vào nội dung được cung cấp."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.7,
+            max_tokens=1500,
+        )
+        answer = response['choices'][0]['message']['content']
         return jsonify({'answer': answer})
     except Exception as e:
-        print(f"LỖI khi gọi Gemini API: {e}")
+        print(f"LỖI khi gọi OpenAI API: {e}")
         return jsonify({'error': f'Đã xảy ra lỗi khi giao tiếp với AI. Vui lòng thử lại sau.'}), 500
 
 # === Khối thực thi chính khi chạy file app.py (chỉ chạy khi start bằng python app.py) ===
 # Phần này sẽ không được Render sử dụng trực tiếp, nhưng hữu ích để kiểm tra cấu hình ban đầu
 if __name__ != '__main__': # Thay đổi điều kiện để code bên dưới chạy khi import
     print("="*30)
-    print("KHỞI TẠO ỨNG DỤNG TÂN DÂN AI CHAT (KHI IMPORT)")
+    print("KHỞI TẠO ỨNG DỤNG TD.BHD AI CHAT ")
     print("="*30)
     print("\n[Bước 1/3] Thiết lập Google Drive...")
     setup_drive_service()
